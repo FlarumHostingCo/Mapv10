@@ -486,7 +486,7 @@ class GymDetails(BaseModel):
     url = CharField()
     last_scanned = DateTimeField(default=datetime.utcnow)
 
-    def construct_pokemon_dict(pokemons, p, encounter_result, d_t):
+def construct_pokemon_dict(pokemons, p, encounter_result, d_t):
     pokemons[p['encounter_id']] = {
         'encounter_id': b64encode(str(p['encounter_id'])),
         'spawnpoint_id': p['spawn_point_id'],
