@@ -920,9 +920,9 @@ function initMap () { // eslint-disable-line no-unused-vars
     redrawPokemon(mapData.lurePokemons)
   })
 
-  searchMarker = createSearchMarker()
+ // searchMarker = createSearchMarker()
 
-  addMyLocationButton()
+//  addMyLocationButton()
   initSidebar()
 }
 
@@ -1762,6 +1762,7 @@ function addMyLocationButton () {
   })
 }
 
+/*
 function changeLocation (lat, lng) {
   var loc = new google.maps.LatLng(lat, lng)
   changeSearchLocation(lat, lng).done(function () {
@@ -1773,6 +1774,7 @@ function changeLocation (lat, lng) {
 function changeSearchLocation (lat, lng) {
   return $.post('next_loc?lat=' + lat + '&lon=' + lng, {})
 }
+*/
 
 function centerMap (lat, lng, zoom) {
   var loc = new google.maps.LatLng(lat, lng)
