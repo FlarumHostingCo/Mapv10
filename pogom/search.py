@@ -535,9 +535,7 @@ def search_worker_thread(args, account, worker_reserve, swap_rate, worker_num, w
 
                      # add --speed-limit
                 speed_limit = args.speed_limit * 1000.0 / 3600.0  # convert to mps to avoid divide by zero errors
-                if first_run:
-                    last_location = step_location
-                    first_run = False
+
                 elif speed_limit > 0:
                     lat1 = math.radians(last_location[0])
                     lon1 = math.radians(last_location[1])
