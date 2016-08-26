@@ -1031,14 +1031,10 @@ function pokemonLabel (name, rarity, types, disappearTime, id, latitude, longitu
     typesDisplay += getTypeSpan(type)
   })
 
-  var details = ''
-  if ('iv' in pokemon && pokemon['iv'] != null) {
-    details = `
-       <div>
+var details = `
+      <div>
         Moves: ${moves[pokemon['move_1']]} / ${moves[pokemon['move_2']]}
       </div>
-      `
-  }
 
 
   var contentstring = `
