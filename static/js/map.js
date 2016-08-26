@@ -1035,6 +1035,7 @@ var details = `
       <div>
         Moves: ${moves[pokemon['move_1']]} / ${moves[pokemon['move_2']]}
       </div>
+       `
 
 
   var contentstring = `
