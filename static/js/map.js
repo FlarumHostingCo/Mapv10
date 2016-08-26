@@ -637,7 +637,7 @@ var mapData = {
   spawnpoints: {}
 }
 var gymTypes = ['Uncontested', 'Mystic', 'Valor', 'Instinct']
-var audio = new Audio('static/sounds/ding.mp3')
+var audio = new Audio('https://imgs.pokemongomap.host/ding.mp3')
 var pokemonSprites = {
   normal: {
     columns: 12,
@@ -645,7 +645,7 @@ var pokemonSprites = {
     iconHeight: 30,
     spriteWidth: 360,
     spriteHeight: 390,
-    filename: 'static/icons-sprite.png',
+    filename: 'https://imgs.pokemongomap.host/icons-sprite.png',
     name: 'Normal'
   },
   highres: {
@@ -654,17 +654,8 @@ var pokemonSprites = {
     iconHeight: 65,
     spriteWidth: 455,
     spriteHeight: 1430,
-    filename: 'static/icons-large-sprite.png',
+    filename: 'https://imgs.pokemongomap.host/icons-large-sprite.png',
     name: 'High-Res'
-  },
-  shuffle: {
-    columns: 7,
-    iconWidth: 65,
-    iconHeight: 65,
-    spriteWidth: 455,
-    spriteHeight: 1430,
-    filename: 'static/icons-shuffle-sprite.png',
-    name: 'Shuffle'
   }
 }
 
@@ -740,7 +731,7 @@ var StoreOptions = {
     type: StoreTypes.Boolean
   },
   'showPokestops': {
-    default: true,
+    default: false,
     type: StoreTypes.Boolean
   },
   'showLuredPokestopsOnly': {
@@ -1095,7 +1086,7 @@ function gymLabel (teamName, teamId, gymPoints, latitude, longitude, lastScanned
         <center>
           <div>
             <b style='color:rgba(${gymColor[teamId]})'>${teamName}</b><br>
-            <img height='70px' style='padding: 5px;' src='static/forts/${teamName}_large.png'>
+            <img height='70px' style='padding: 5px;' src='https://imgs.pokemongomap.host/forts/${teamName}_large.png'>
           </div>
           ${nameStr}
           <div>
@@ -1123,7 +1114,7 @@ function gymLabel (teamName, teamId, gymPoints, latitude, longitude, lastScanned
           </div>
           <div>
             <b style='color:rgba(${gymColor[teamId]})'>Team ${teamName}</b><br>
-            <img height='70px' style='padding: 5px;' src='static/forts/${teamName}_large.png'>
+            <img height='70px' style='padding: 5px;' src='https://imgs.pokemongomap.host/forts/${teamName}_large.png'>
           </div>
           <div>
             ${nameStr}
@@ -1243,7 +1234,7 @@ function setupPokemonMarker (item, skipNotification, isBounceDisabled) {
       if (Store.get('playSound')) {
         audio.play()
       }
-      sendNotification('A wild ' + item['pokemon_name'] + ' appeared!', 'Click to load map', 'static/icons/' + item['pokemon_id'] + '.png', item['latitude'], item['longitude'])
+      sendNotification('A wild ' + item['pokemon_name'] + ' appeared!', 'Click to load map', 'https://imgs.pokemongomap.host/icons/' + item['pokemon_id'] + '.png', item['latitude'], item['longitude'])
     }
     if (marker.animationDisabled !== true) {
       marker.setAnimation(google.maps.Animation.BOUNCE)
@@ -1316,7 +1307,7 @@ function setupPokestopMarker (item) {
     },
     map: map,
     zIndex: 2,
-    icon: 'static/forts/' + imagename + '.png'
+    icon: 'https://imgs.pokemongomap.host/forts/' + imagename + '.png'
   })
 
   marker.infoWindow = new google.maps.InfoWindow({
@@ -1682,7 +1673,7 @@ function sendNotification (title, text, icon, lat, lng) {
     var notification = new Notification(title, {
       icon: icon,
       body: text,
-      sound: 'sounds/ding.mp3'
+      sound: 'https://imgs.pokemongomap.host/ding.mp3'
     })
 
     notification.onclick = function () {
@@ -1715,7 +1706,7 @@ function myLocationButton (map, marker) {
   locationIcon.style.margin = '5px'
   locationIcon.style.width = '18px'
   locationIcon.style.height = '18px'
-  locationIcon.style.backgroundImage = 'url(static/mylocation-sprite-1x.png)'
+  locationIcon.style.backgroundImage = 'url(https://imgs.pokemongomap.host/mylocation-sprite-1x.png)'
   locationIcon.style.backgroundSize = '180px 18px'
   locationIcon.style.backgroundPosition = '0px 0px'
   locationIcon.style.backgroundRepeat = 'no-repeat'
@@ -1818,7 +1809,7 @@ function centerMap (lat, lng, zoom) {
 function i8ln (word) {
   if ($.isEmptyObject(i8lnDictionary) && language !== 'en' && languageLookups < languageLookupThreshold) {
     $.ajax({
-      url: 'static/dist/locales/' + language + '.min.json',
+      url: 'static//dist/locales/' + language + '.min.json',
       dataType: 'json',
       async: false,
       success: function (data) {
