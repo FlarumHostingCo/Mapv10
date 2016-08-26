@@ -486,21 +486,7 @@ class GymDetails(BaseModel):
     url = CharField()
     last_scanned = DateTimeField(default=datetime.utcnow)
 
-
-def hex_bounds(center, steps):
-    # Make a box that is (70m * step_limit * 2) + 70m away from the center point
-    # Rationale is that you need to travel
-    sp_dist = 0.07 * 2 * steps
-    n = get_new_coords(center, sp_dist, 0)[0]
-    e = get_new_coords(center, sp_dist, 90)[1]
-    s = get_new_coords(center, sp_dist, 180)[0]
-    w = get_new_coords(center, sp_dist, 270)[1]
-    return (n, e, s, w)
-
-
-# todo: this probably shouldn't _really_ be in "models" anymore, but w/e
-
-def construct_pokemon_dict(pokemons, p, encounter_result, d_t):
+    def construct_pokemon_dict(pokemons, p, encounter_result, d_t):
     pokemons[p['encounter_id']] = {
         'encounter_id': b64encode(str(p['encounter_id'])),
         'spawnpoint_id': p['spawn_point_id'],
@@ -516,6 +502,21 @@ def construct_pokemon_dict(pokemons, p, encounter_result, d_t):
             'move_1': pokemon_info['move_1'],
             'move_2': pokemon_info['move_2']
         })
+
+
+def hex_bounds(center, steps):
+    # Make a box that is (70m * step_limit * 2) + 70m away from the center point
+    # Rationale is that you need to travel
+    sp_dist = 0.07 * 2 * steps
+    n = get_new_coords(center, sp_dist, 0)[0]
+    e = get_new_coords(center, sp_dist, 90)[1]
+    s = get_new_coords(center, sp_dist, 180)[0]
+    w = get_new_coords(center, sp_dist, 270)[1]
+    return (n, e, s, w)
+
+
+# todo: this probably shouldn't _really_ be in "models" anymore, but w/e
+
 def parse_map(api, args, map_dict, step_location, db_update_queue, wh_update_queue):
     pokemons = {}
     pokestops = {}
