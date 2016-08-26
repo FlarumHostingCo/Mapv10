@@ -515,7 +515,7 @@ def construct_pokemon_dict(pokemons, p, encounter_result, d_t):
         pokemons[p['encounter_id']].update({
             'move_1': pokemon_info['move_1'],
             'move_2': pokemon_info['move_2']
-        }))
+        })
 def parse_map(api, args, map_dict, step_location, db_update_queue, wh_update_queue):
     pokemons = {}
     pokestops = {}
