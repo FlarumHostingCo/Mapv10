@@ -509,7 +509,7 @@ def search_worker_thread(args, account, worker_reserve, swap_rate, worker_num, w
                 if appears and now() < appears + 10 + random_delay:  # adding a 10 second grace period
                     first_loop = True
                     paused = False
-                    while now() < appears + 10 + random_delay
+                    while now() < appears + 10 + random_delay:
                         if pause_bit.is_set():
                             paused = True
                             break  # why can't python just have `break 2`...
