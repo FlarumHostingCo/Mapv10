@@ -25,7 +25,7 @@ var notifiedRarity = []
 
 var map
 var rawDataIsLoading = false
-var locationMarker
+//var locationMarker
 // var searchMarker
 var moves
 var storeZoom = true
@@ -847,6 +847,7 @@ function initMap () { // eslint-disable-line no-unused-vars
     },
     zoom: Store.get('zoomLevel'),
     fullscreenControl: true,
+    disableDoubleClickZoom: true,
     streetViewControl: false,
     mapTypeControl: false,
     mapTypeControlOptions: {
