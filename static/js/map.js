@@ -1086,7 +1086,7 @@ function gymLabel (teamName, teamId, gymPoints, latitude, longitude, lastScanned
         <center>
           <div>
             <b style='color:rgba(${gymColor[teamId]})'>${teamName}</b><br>
-            <img height='70px' style='padding: 5px;' src='https://imgs.pokemongomap.host/forts/${teamName}_large.png'>
+            <img height='70px' style='padding: 5px;' src='https://imgs.pokemongomap.host/${teamName}_large.png'>
           </div>
           ${nameStr}
           <div>
@@ -1114,7 +1114,7 @@ function gymLabel (teamName, teamId, gymPoints, latitude, longitude, lastScanned
           </div>
           <div>
             <b style='color:rgba(${gymColor[teamId]})'>Team ${teamName}</b><br>
-            <img height='70px' style='padding: 5px;' src='https://imgs.pokemongomap.host/forts/${teamName}_large.png'>
+            <img height='70px' style='padding: 5px;' src='https://imgs.pokemongomap.host/${teamName}_large.png'>
           </div>
           <div>
             ${nameStr}
@@ -1307,7 +1307,7 @@ function setupPokestopMarker (item) {
     },
     map: map,
     zIndex: 2,
-    icon: 'https://imgs.pokemongomap.host/forts/' + imagename + '.png'
+    icon: 'https://imgs.pokemongomap.host/' + imagename + '.png'
   })
 
   marker.infoWindow = new google.maps.InfoWindow({
