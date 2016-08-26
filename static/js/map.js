@@ -27,6 +27,7 @@ var map
 var rawDataIsLoading = false
 var locationMarker
 var searchMarker
+var moves
 var storeZoom = true
 
 var noLabelsStyle = [{
