@@ -503,11 +503,13 @@ def search_worker_thread(args, account, worker_reserve, swap_rate, worker_num, w
                 status['message'] = 'Waiting for item from queue'
                 step, step_location, appears, leaves = search_items_queue.get()
 
+                # add --random-delay
+                random_delay = random.randint(0, args.random_delay)
                 # too soon?
-                if appears and now() < appears + 10:  # adding a 10 second grace period
+                if appears and now() < appears + 10 + random_delay:  # adding a 10 second grace period
                     first_loop = True
                     paused = False
-                    while now() < appears + 10:
+                    while now() < appears + 10 + random_delay
                         if pause_bit.is_set():
                             paused = True
                             break  # why can't python just have `break 2`...
@@ -530,6 +532,31 @@ def search_worker_thread(args, account, worker_reserve, swap_rate, worker_num, w
                     log.info(status['message'])
                     # No sleep here; we've not done anything worth sleeping for. Plus we clearly need to catch up!
                     continue
+
+                     # add --speed-limit
+                speed_limit = args.speed_limit * 1000.0 / 3600.0  # convert to mps to avoid divide by zero errors
+                if first_run:
+                    last_location = step_location
+                    first_run = False
+                elif speed_limit > 0:
+                    lat1 = math.radians(last_location[0])
+                    lon1 = math.radians(last_location[1])
+                    lat2 = math.radians(step_location[0])
+                    lon2 = math.radians(step_location[1])
+                    dlon = lon2 - lon1
+                    dlat = lat2 - lat1
+                    a = math.sin(dlat / 2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2)**2
+                    c2 = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+                    distance = R * c2 * 1000.0
+
+                    time_elapsed = int(round(time.time() * 1000.0)) - last_scan_time
+                    speed = distance / (time_elapsed / 1000.0)
+                    if speed > speed_limit:
+                        speed_sleep = int(math.ceil(((1000.0 * distance / speed_limit) - time_elapsed) / 1000.0))
+                        log.info("Sleeping an additional %d seconds to stay under speed limit", speed_sleep)
+                        time.sleep(speed_sleep)
+
+                        last_location = step_location
 
                 status['message'] = 'Searching at {:6f},{:6f}'.format(step_location[0], step_location[1])
                 log.info(status['message'])
@@ -616,8 +643,9 @@ def search_worker_thread(args, account, worker_reserve, swap_rate, worker_num, w
                             parse_gyms(args, gym_responses, whq)
 
                 # Always delay the desired amount after "scan" completion
-                status['message'] += ', sleeping {}s until {}'.format(args.scan_delay, time.strftime('%H:%M:%S', time.localtime(time.time() + args.scan_delay)))
-                time.sleep(args.scan_delay)
+                last_scan_time = int(round(time.time() * 1000))
+                status['message'] += ', sleeping {}s until {}'.format(args.scan_delay + random_delay, time.strftime('%H:%M:%S', time.localtime(time.time() + args.scan_delay + random_delay)))
+                time.sleep(args.scan_delay + random_delay)
 
                 if swap_rate and random.random() < swap_rate:
                     status['message'] = 'On reserve'
