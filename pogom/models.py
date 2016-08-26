@@ -79,9 +79,23 @@ class Pokemon(BaseModel):
     latitude = DoubleField()
     longitude = DoubleField()
     disappear_time = DateTimeField(index=True)
+    move_1 = IntegerField(null=True)
+    move_2 = IntegerField(null=True)
 
     class Meta:
         indexes = ((('latitude', 'longitude'), False),)
+
+    @staticmethod
+    def get_encountered_pokemon(encounter_id):
+        query = (Pokemon
+                 .select()
+                 .where(Pokemon.encounter_id == encounter_id)
+                 .dicts()
+                 )
+        pokemon = []
+        for a in query:
+            pokemon.append(a)
+        return pokemon
 
     @staticmethod
     def get_active(swLat, swLng, neLat, neLng):
@@ -175,6 +189,7 @@ class Pokemon(BaseModel):
                          Pokemon.longitude,
                          pokemon_count_query.c.count)
                  .join(pokemon_count_query, on=(Pokemon.pokemon_id == pokemon_count_query.c.pokemon_id))
+                 .distinct()
                  .where(Pokemon.disappear_time == pokemon_count_query.c.lastappeared)
                  .dicts()
                  )
@@ -484,7 +499,24 @@ def hex_bounds(center, steps):
 
 
 # todo: this probably shouldn't _really_ be in "models" anymore, but w/e
-def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue):
+
+def construct_pokemon_dict(pokemons, p, encounter_result, d_t):
+    pokemons[p['encounter_id']] = {
+        'encounter_id': b64encode(str(p['encounter_id'])),
+        'spawnpoint_id': p['spawn_point_id'],
+        'pokemon_id': p['pokemon_data']['pokemon_id'],
+        'latitude': p['latitude'],
+        'longitude': p['longitude'],
+        'disappear_time': d_t,
+    }
+    if encounter_result is not None:
+        ecounter_info = encounter_result['responses']['ENCOUNTER']
+        pokemon_info = ecounter_info['wild_pokemon']['pokemon_data']
+        pokemons[p['encounter_id']].update({
+            'move_1': pokemon_info['move_1'],
+            'move_2': pokemon_info['move_2']
+        }))
+def parse_map(api, args, map_dict, step_location, db_update_queue, wh_update_queue):
     pokemons = {}
     pokestops = {}
     gyms = {}
@@ -505,14 +537,14 @@ def parse_map(args, map_dict, step_location, db_update_queue, wh_update_queue):
 
                 printPokemon(p['pokemon_data']['pokemon_id'], p['latitude'],
                              p['longitude'], d_t)
-                pokemons[p['encounter_id']] = {
-                    'encounter_id': b64encode(str(p['encounter_id'])),
-                    'spawnpoint_id': p['spawn_point_id'],
-                    'pokemon_id': p['pokemon_data']['pokemon_id'],
-                    'latitude': p['latitude'],
-                    'longitude': p['longitude'],
-                    'disappear_time': d_t
-                }
+                result = None
+                if args.scan_iv and not Pokemon.get_encountered_pokemon(p['encounter_id']):
+                    result = api.encounter(encounter_id=p['encounter_id'],
+                                           spawn_point_id=p['spawn_point_id'],
+                                           player_latitude=step_location[0],
+                                           player_longitude=step_location[1])
+                    time.sleep(args.encounter_delay)
+                construct_pokemon_dict(pokemons, p, result, d_t)
 
                 if args.webhooks:
                     wh_update_queue.put(('pokemon', {

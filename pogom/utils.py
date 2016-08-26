@@ -54,12 +54,21 @@ def get_args():
                         help='Usernames, one per account.')
     parser.add_argument('-p', '--password', action='append',
                         help='Passwords, either single one for all accounts or one per account.')
+    parser.add_argument('--acc-reserve', type=float, default=4, help='The number (or percent) of accounts \
+                        to keep in reserve. Reserved accounts are regularily rotated in to reduce \
+                        account stress. Defaults to 0 (off)')
     parser.add_argument('-l', '--location', type=parse_unicode,
                         help='Location, can be an address or coordinates')
     parser.add_argument('-j', '--jitter', help='Apply random -9m to +9m jitter to location',
                         action='store_true', default=False)
     parser.add_argument('-st', '--step-limit', help='Steps', type=int,
                         default=12)
+    parser.add_argument('-ed', '--encounter-delay',
+                        help='Time delay between encounter pokemon in scan threads',
+                        type=float, default=10)
+    parser.add_argument('-si', '--scan-iv',
+                        help='Scan the IV of the pokemon',
+                        action='store_true', default=True)
     parser.add_argument('-sd', '--scan-delay',
                         help='Time delay between requests in scan threads',
                         type=float, default=10)
@@ -147,7 +156,7 @@ def get_args():
     parser.add_argument('-wh', '--webhook', help='Define URL(s) to POST webhook information to',
                         nargs='*', default=False, dest='webhooks')
     parser.add_argument('-gi', '--gym-info', help='Get all details about gyms (causes an additional API hit for every gym)',
-                        action='store_true', default=False)
+                        action='store_true', default=True)
     parser.add_argument('--webhook-updates-only', help='Only send updates (pokémon & lured pokéstops)',
                         action='store_true', default=False)
     parser.add_argument('--wh-threads', help='Number of webhook threads; increase if the webhook queue falls behind',

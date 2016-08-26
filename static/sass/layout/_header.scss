@@ -1,14 +1,30 @@
-/* Header */
+/* Header 
+
+
+*/
 
 	body {
 		padding-top: 3.125em;
 	}
 
+	.infowindow {
+    height: 320px;
+}
+
+#adTop {
+left:0;
+position: fixed;
+text-align:right;
+top: 0px;
+width:100%;
+z-index:999;
+}
+
 	#header {
-		background: darken(_palette(accent2, bg), 12);
-		color: _palette(accent2, fg);
+		background: #3b4cca;
+		color: #ffde00;;
 		cursor: default;
-		height: 3.50em;
+		height: 90px;
 		left: 0;
 		line-height: 3.50em;
 		position: fixed;
@@ -43,7 +59,7 @@
 			}
 
 			&[href="#nav"] {
-				@include icon('\f013');
+				@include icon('\f0ca');
 				-webkit-tap-highlight-color: rgba(0,0,0,0);
 
 				&:before {
@@ -55,6 +71,60 @@
 				border-left: solid 1px _palette(accent2, border);
 				padding-left: 1.25em;
 				margin-left: 0.5em;
+			}
+
+			&[href="https://www.paypal.me/PokeTrainerHQ"] {
+				@include icon('\f1ed');
+				-webkit-tap-highlight-color: rgba(0,0,0,0);
+
+				&:before {
+					margin: 0 0.5em 0 0;
+				}
+			}
+
+			& + a[href="https://www.paypal.me/PokeTrainerHQ"]:last-child {
+				border-left: solid 1px _palette(accent2, border);
+				padding-left: 1.25em;
+				margin-left: 0.5em;
+			}
+
+			&[href="https://www.facebook.com/PokeTrainerHQ"] {
+				@include icon('\f230');
+				-webkit-tap-highlight-color: rgba(0,0,0,0);
+
+				&:before {
+					margin: 0 0.5em 0 0;
+				}
+			}
+
+			& + a[href="https://www.facebook.com/PokeTrainerHQ"]:last-child {
+				border-left: solid 1px _palette(accent2, border);
+				padding-left: 1.25em;
+				margin-left: 0.5em;
+			}
+
+			&[href="https://www.twitter.com/PokeTrainerHQ"] {
+				@include icon('\f099');
+				-webkit-tap-highlight-color: rgba(0,0,0,0);
+
+				&:before {
+					margin: 0 0.5em 0 0;
+				}
+			}
+
+			& + a[href="https://www.twitter.com/PokeTrainerHQ"]:last-child {
+				border-left: solid 1px _palette(accent2, border);
+				padding-left: 1.25em;
+				margin-left: 0.5em;
+			}
+
+			&[href="#history"] {
+				@include icon('\f1da');
+				-webkit-tap-highlight-color: rgba(0,0,0,0);
+  
+				&:before {
+					margin: 0 0.5em 0 0;
+				}
 			}
 
 			&[href="#stats"] {
