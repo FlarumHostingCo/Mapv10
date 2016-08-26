@@ -26,7 +26,7 @@ var notifiedRarity = []
 var map
 var rawDataIsLoading = false
 var locationMarker
-var searchMarker
+// var searchMarker
 var moves
 var storeZoom = true
 
@@ -764,7 +764,7 @@ var StoreOptions = {
     type: StoreTypes.Boolean
   },
   'lockMarker': {
-    default: isTouchDevice(), // default to true if touch device
+    default: false, // default to true if touch device
     type: StoreTypes.Boolean
   },
   'startAtUserLocation': {
@@ -780,7 +780,7 @@ var StoreOptions = {
     type: StoreTypes.Number
   },
   'searchMarkerStyle': {
-    default: 'google',
+    default: 'pokesition',
     type: StoreTypes.String
   },
   'zoomLevel': {
